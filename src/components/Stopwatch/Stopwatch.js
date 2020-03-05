@@ -12,7 +12,8 @@ export default class Stopwatch extends React.Component {
       startVisible: true,
       // TODO: remove stopVisible
       stopVisible: false,
-      lapTimes: []
+      lapTimes: [],
+      lapsVisibility: false
     };
 
     this.handleStart = this.handleStart.bind(this);
@@ -65,13 +66,18 @@ export default class Stopwatch extends React.Component {
   }
 
   handleAddLap() {
-    console.log(this.state);
     this.setState(state => {
       const lapTimes = [
         ...state.lapTimes,
         { hours: state.hours, minutes: state.minutes, seconds: state.seconds }
       ];
-      return { lapTimes, hours: 0, minutes: 0, seconds: 0 };
+      return {
+        lapTimes,
+        lapsVisibility: true,
+        hours: 0,
+        minutes: 0,
+        seconds: 0
+      };
     });
   }
 
@@ -84,7 +90,15 @@ export default class Stopwatch extends React.Component {
       <>
         <div class="startWatchContainer">
           <div class="startWatch">
-            <ul>
+            <h1 className="timeDisplay">
+              {this.toDoubleDigit(this.state.hours)}:
+              {this.toDoubleDigit(this.state.minutes)}:
+              {this.toDoubleDigit(this.state.seconds)}
+            </h1>
+            <ul
+              className="lapTimes"
+              style={{ display: this.state.lapsVisibility ? "block" : "none" }}
+            >
               {this.state.lapTimes.map(item => (
                 <li key={item}>
                   {this.toDoubleDigit(item.hours)}:
@@ -93,11 +107,6 @@ export default class Stopwatch extends React.Component {
                 </li>
               ))}
             </ul>
-            <h1>
-              {this.toDoubleDigit(this.state.hours)}:
-              {this.toDoubleDigit(this.state.minutes)}:
-              {this.toDoubleDigit(this.state.seconds)}
-            </h1>
             <div class="watchButtons">
               <button
                 style={{ display: this.state.startVisible ? "block" : "none" }}
