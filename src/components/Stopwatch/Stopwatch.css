@@ -32,7 +32,7 @@ h1 {
 }
 
 button {
-  width: 30%;
+  width: 15%;
   height: 30px;
   border-radius: 2em;
   transition-property: background-color;
@@ -65,5 +65,12 @@ button:hover {
   margin-bottom: 0;
 }
 
-.lapTimes {
+table {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+tr > td:first-child {
+  padding-right: 3em;
 }
