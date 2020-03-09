@@ -23,18 +23,20 @@ export default class Stopwatch extends React.Component {
   }
 
   handleStart() {
+    const maxSecondOrMinute = 59;
+
     this.setState({
       startVisible: false,
       stopVisible: true
     });
     let interval = setInterval(() => {
-      if (this.state.minutes === 59) {
+      if (this.state.minutes === maxSecondOrMinute) {
         this.setState({
           hours: this.state.hours + 1,
           minutes: 0
         });
       }
-      if (this.state.seconds === 59) {
+      if (this.state.seconds === maxSecondOrMinute) {
         this.setState({
           minutes: this.state.minutes + 1,
           seconds: 0
@@ -82,14 +84,16 @@ export default class Stopwatch extends React.Component {
   }
 
   toDoubleDigit(digit) {
-    return digit < 10 ? "0" + digit : digit;
+    return digit < 10 ? `0${digit}` : digit;
   }
 
   render() {
+    const sID = require("shortid");
+
     return (
       <>
-        <div class="startWatchContainer">
-          <div class="startWatch">
+        <div className="startWatchContainer">
+          <div className="startWatch">
             <h1 className="timeDisplay">
               {this.toDoubleDigit(this.state.hours)}:
               {this.toDoubleDigit(this.state.minutes)}:
@@ -100,24 +104,24 @@ export default class Stopwatch extends React.Component {
               style={{ display: this.state.lapsVisibility ? "block" : "none" }}
             >
               {this.state.lapTimes.map(item => (
-                <li key={item}>
+                <li key={sID.generate()}>
                   {this.toDoubleDigit(item.hours)}:
                   {this.toDoubleDigit(item.minutes)}:
                   {this.toDoubleDigit(item.seconds)}
                 </li>
               ))}
             </ul>
-            <div class="watchButtons">
+            <div className="watchButtons">
               <button
                 style={{ display: this.state.startVisible ? "block" : "none" }}
-                class="start"
+                className="start"
                 onClick={this.handleStart}
               >
                 Start
               </button>
               <button
                 style={{ display: this.state.stopVisible ? "block" : "none" }}
-                class="stop"
+                className="stop"
                 onClick={this.handleStop}
               >
                 Stop
