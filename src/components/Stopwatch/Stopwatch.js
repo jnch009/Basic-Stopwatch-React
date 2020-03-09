@@ -1,5 +1,8 @@
 import React from "react";
+import sID from "shortid";
 import "./Stopwatch.css";
+
+const maxSecondOrMinute = 59;
 
 export default class Stopwatch extends React.Component {
   constructor(props) {
@@ -21,8 +24,6 @@ export default class Stopwatch extends React.Component {
   }
 
   handleStart() {
-    const maxSecondOrMinute = 59;
-
     this.setState({
       startVisible: false
     });
@@ -84,8 +85,6 @@ export default class Stopwatch extends React.Component {
   }
 
   render() {
-    const sID = require("shortid");
-
     return (
       <>
         <div className="startWatchContainer">
