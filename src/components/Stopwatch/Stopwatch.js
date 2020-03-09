@@ -16,9 +16,14 @@ export default class Stopwatch extends React.Component {
       lapTimes: [],
       lapsVisibility: false
     };
+
+    this.handleStart = this.handleStart.bind(this);
+    this.handleReset = this.handleReset.bind(this);
+    this.handleStop = this.handleStop.bind(this);
+    this.handleAddLap = this.handleAddLap.bind(this);
   }
 
-  handleStart = () => {
+  handleStart() {
     this.setState({
       startVisible: false
     });
@@ -42,24 +47,24 @@ export default class Stopwatch extends React.Component {
     }, 1000);
 
     this.setState({ intervalID: interval });
-  };
+  }
 
-  handleStop = () => {
+  handleStop() {
     clearInterval(this.state.intervalID);
     this.setState({
       startVisible: true
     });
-  };
+  }
 
-  handleReset = () => {
+  handleReset() {
     this.setState({
       seconds: 0,
       minutes: 0,
       hours: 0
     });
-  };
+  }
 
-  handleAddLap = () => {
+  handleAddLap() {
     this.setState(state => {
       const lapTimes = [
         ...state.lapTimes,
@@ -73,14 +78,7 @@ export default class Stopwatch extends React.Component {
         seconds: 0
       };
     });
-  };
-
-  // ensuring that the function is bound to the class (the syntax below)
-  handleClearLaps = () => {
-    this.setState({
-      lapTimes: []
-    });
-  };
+  }
 
   toDoubleDigit(digit) {
     return digit < 10 ? `0${digit}` : digit;
@@ -96,24 +94,17 @@ export default class Stopwatch extends React.Component {
               {this.toDoubleDigit(this.state.minutes)}:
               {this.toDoubleDigit(this.state.seconds)}
             </h1>
-            <table>
-              <tr>
-                <td>Lap</td>
-                <td>Time</td>
-              </tr>
-              {this.state.lapsVisibility
-                ? this.state.lapTimes.map((item, i) => (
-                    <tr key={sID.generate()}>
-                      <td>{i + 1}</td>
-                      <td>
-                        {this.toDoubleDigit(item.hours)}:
-                        {this.toDoubleDigit(item.minutes)}:
-                        {this.toDoubleDigit(item.seconds)}
-                      </td>
-                    </tr>
-                  ))
-                : null}
-            </table>
+            {this.state.lapsVisibility ? (
+              <ul className="lapTimes">
+                {this.state.lapTimes.map(item => (
+                  <li key={sID.generate()}>
+                    {this.toDoubleDigit(item.hours)}:
+                    {this.toDoubleDigit(item.minutes)}:
+                    {this.toDoubleDigit(item.seconds)}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
             <div className="watchButtons">
               {this.state.startVisible ? (
                 <button className="start" onClick={this.handleStart}>
@@ -126,7 +117,6 @@ export default class Stopwatch extends React.Component {
               )}
               <button onClick={this.handleReset}>Reset</button>
               <button onClick={this.handleAddLap}>Add Lap</button>
-              <button onClick={this.handleClearLaps}>Clear Laps</button>
             </div>
           </div>
         </div>
