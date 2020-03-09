@@ -64,3 +64,13 @@ button:hover {
 .timeDisplay {
   margin-bottom: 0;
 }
+
+table {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+tr > td:first-child {
+  padding-right: 3em;
+}

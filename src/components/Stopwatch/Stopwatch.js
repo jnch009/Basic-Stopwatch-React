@@ -42,14 +42,14 @@ export default class Stopwatch extends React.Component {
     }, 1000);
 
     this.setState({ intervalID: interval });
-  }
+  };
 
   handleStop = () => {
     clearInterval(this.state.intervalID);
     this.setState({
       startVisible: true
     });
-  }
+  };
 
   handleReset = () => {
     this.setState({
@@ -57,7 +57,7 @@ export default class Stopwatch extends React.Component {
       minutes: 0,
       hours: 0
     });
-  }
+  };
 
   handleAddLap = () => {
     this.setState(state => {
@@ -73,14 +73,14 @@ export default class Stopwatch extends React.Component {
         seconds: 0
       };
     });
-  }
+  };
 
   // ensuring that the function is bound to the class (the syntax below)
   handleClearLaps = () => {
     this.setState({
       lapTimes: []
     });
-  }
+  };
 
   toDoubleDigit(digit) {
     return digit < 10 ? `0${digit}` : digit;
@@ -96,17 +96,24 @@ export default class Stopwatch extends React.Component {
               {this.toDoubleDigit(this.state.minutes)}:
               {this.toDoubleDigit(this.state.seconds)}
             </h1>
-            {this.state.lapsVisibility ? (
-              <ul className="lapTimes">
-                {this.state.lapTimes.map(item => (
-                  <li key={sID.generate()}>
-                    {this.toDoubleDigit(item.hours)}:
-                    {this.toDoubleDigit(item.minutes)}:
-                    {this.toDoubleDigit(item.seconds)}
-                  </li>
-                ))}
-              </ul>
-            ) : null}
+            <table>
+              <tr>
+                <td>Lap</td>
+                <td>Time</td>
+              </tr>
+              {this.state.lapsVisibility
+                ? this.state.lapTimes.map((item, i) => (
+                    <tr key={sID.generate()}>
+                      <td>{i + 1}</td>
+                      <td>
+                        {this.toDoubleDigit(item.hours)}:
+                        {this.toDoubleDigit(item.minutes)}:
+                        {this.toDoubleDigit(item.seconds)}
+                      </td>
+                    </tr>
+                  ))
+                : null}
+            </table>
             <div className="watchButtons">
               {this.state.startVisible ? (
                 <button className="start" onClick={this.handleStart}>
